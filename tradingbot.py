@@ -45,8 +45,8 @@ class MLTrader(Strategy):
         # Get sentiment analysis for the specified date range
         today, three_days_prior = self.get_dates()  # Get today and three days prior
         news = self.api.get_news(symbol=self.symbol, 
-                                 start=three_days_prior, 
-                                 end=today)  # Fetch news articles
+                                start=three_days_prior, 
+                                end=today)  # Fetch news articles
         news = [ev.__dict__["_raw"]["headline"] for ev in news]  # Extract headlines
         probability, sentiment = estimate_sentiment(news)  # Estimate sentiment from headlines
         return probability, sentiment  # Return sentiment probability and label
@@ -97,14 +97,14 @@ strategy = MLTrader(name='mlstrat', broker=broker,
                                 "cash_at_risk": .5})
 
 # Run backtesting
-strategy.backtest(
-    YahooDataBacktesting, 
-    start_date, 
-    end_date, 
-    parameters={"symbol": "SPY", "cash_at_risk": .5}
-)
+# strategy.backtest(
+#     YahooDataBacktesting, 
+#     start_date, 
+#     end_date, 
+#     parameters={"symbol": "SPY", "cash_at_risk": .5}
+# )
 
 # Uncomment to run the strategy live
-# trader = Trader()
-# trader.add_strategy(strategy)
-# trader.run_all()
+trader = Trader()
+trader.add_strategy(strategy)
+trader.run_all()
